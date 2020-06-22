@@ -1,264 +1,9 @@
 #include <iostream>
-#include <stack>
+#include "Stack.h"
+#include "List.h"
+//#include "Stack.h"
 
 using namespace std;
-
-template<class T>
-class List
-{
-private:
-	struct Node
-	{
-		T value;
-		Node * next;
-	};
-	Node* head;
-public:
-	List() : head(nullptr) { }
-
-	List(const List& other)
-	{
-		Node* current = other.head;
-		while (current != nullptr)
-		{
-			AddToTail(current->value);
-			current = current->next;
-		}
-	}
-
-	List& operator=(const List& other)
-	{
-		if (this == &other)
-			return *this;
-
-		while (!isEmpty())
-		{
-			DeleteHead();
-		}
-		Node* current = other.head;
-		while (current != nullptr)
-		{
-			AddToTail(current->value);
-			current = current->next;
-		}
-		return *this;
-	}
-
-	void FindByPosition(int index)
-	{
-		if (index > (ShowSizeOfList() - 1) || index < 0) return;
-		else
-		{
-			Node* current = head;
-			int counter = 0;
-			while (counter != index)
-			{
-				current = current->next;
-				counter++;
-			}
-			cout << current->value << endl;
-		}
-	}
-
-	int ShowSizeOfList()
-	{
-		int count = 0;
-		Node* current = head;
-		while (current != nullptr)
-		{
-			++count;
-			current = current->next;
-		}
-		return count;
-	}
-
-	void operator++()
-	{
-		AddToTail(0);
-	}
-
-	void AddToHead(T value)
-	{
-		Node* newElement = new Node;
-		newElement->value = value;
-		newElement->next = head;
-		head = newElement;
-	}
-
-	void AddToTail(T value)
-	{
-		Node* newElement = new Node;
-		newElement->value = value;
-		newElement->next = nullptr;
-
-		if (head == nullptr)
-		{
-			head = newElement;
-		}
-		else
-		{
-			Node* current = head;
-			while (current->next != nullptr)
-			{
-				current = current->next;
-			}
-
-			current->next = newElement;
-		}
-	}
-
-	void AddByIndex(int index, T value)
-	{
-		if (index > ShowSizeOfList() || index < 0)
-		{
-			cout << "error" << endl;
-			return;
-		}
-		else
-		{
-			if (index == ShowSizeOfList())
-			{
-				AddToTail(value);
-				return;
-			}
-			int count = 0;
-
-			Node* newElement = new Node;
-			newElement->value = value;
-
-			Node* current = head;
-			while (current != nullptr)
-			{
-				if (count + 1 == index)
-				{
-					newElement->next = current->next;
-					current->next = newElement;
-				}
-				++count;
-				current = current->next;
-			}
-		}
-	}
-
-	void DeleteByIndex(int index)
-	{
-
-		if (index > (ShowSizeOfList() - 1) || index < 0)
-		{
-			cout << "error" << endl;
-			return;
-		}
-		else
-		{
-			if (head == nullptr) return;
-
-			if (head->next == nullptr)
-			{
-				delete head;
-				head = nullptr;
-			}
-			else
-			{
-				int count = 0;
-				Node* current = head;
-				Node*temp = new Node;
-				while (current != nullptr)
-				{
-					if (count + 1 == index)
-					{
-						temp = current->next;
-						current->next = current->next->next;
-						delete temp;
-					}
-					++count;
-					current = current->next;
-				}
-			}
-		}
-	}
-
-	void DeleteHead()
-	{
-		if (head == nullptr) return;
-
-		Node* temp = head->next;
-		delete head;
-
-		if (temp == nullptr)
-			head = nullptr;
-		else
-			head = temp;
-	}
-
-	void DeleteTail()
-	{
-		if (head == nullptr) return;
-
-		if (head->next == nullptr)
-		{
-			delete head;
-			head = nullptr;
-		}
-		else
-		{
-			Node* current = head;
-
-			while (current->next->next != nullptr)
-			{
-				current = current->next;
-			}
-			delete current->next;
-			current->next = nullptr;
-		}
-	}
-
-	void Print()const
-	{
-		Node* current = head;
-		while (current != nullptr)
-		{
-			cout << current->value << ", ";
-			current = current->next;
-		}
-	}
-
-	bool isEmpty()const
-	{
-		return head == nullptr;
-	}
-
-	void Push(T value)
-	{
-		AddToTail(value);
-	}
-
-	void Pop()
-	{
-		DeleteTail();
-	}
-
-	T Peek()
-	{
-		Node* current = head;
-		while (current != nullptr)
-		{
-			if (current->next == nullptr)
-			{
-				return current->value;
-			}
-			++count;
-			current = current->next;
-		}
-	}
-
-	~List()
-	{
-		while (!isEmpty())
-		{
-			DeleteHead();
-		}
-	}
-};
 
 int main()
 {
@@ -286,19 +31,62 @@ int main()
 	//ls.DeleteTail();
 	//ls.Print();*/
 
-	List<int> ls;
-	ls.AddToHead(10);
-	ls.AddToHead(15);
-	ls.AddToHead(5);
-	ls.AddToHead(20);
-	ls.Print(); cout << endl;
-	/*ls.DeleteByIndex(2);
+	//List<int> ls;
+	//ls.AddToHead(10);
+	//ls.AddToHead(15);
+	//ls.AddToHead(5);
+	//ls.AddToHead(20);
+	//ls.Print();
+	////ls.Print(); cout << endl;
+	////ls.DeleteByIndex(2);
+	////cout << endl;
+	////ls.Print();
+	////ls.AddByIndex(4, 155);
+	////cout << endl;
+	////ls.Print();
+	////cout << endl;
+	////cout << ls.Peek() << endl;
+	////ls.Push(1230);
+	////ls.Print();
+	////cout << endl;
+	////ls.Pop();
+	////ls.Print();
+	////cout << endl;
+
+	//List<int> ls2;
+	//ls.AddToHead(100);
+	//ls.AddToHead(150);
+	//ls.AddToHead(50);
+	//ls.AddToHead(200);
+	//ls2.Print();
+
+	//List<int> ls3;
+	//ls.AddToHead(159);
+	//ls.AddToHead(987);
+	//ls.AddToHead(69);
+	//ls.AddToHead(228);
+	//ls3.Print();
+
+	/*Stack<int> st;
+	st.Push(ls);
+	st.Push(ls2);
+	st.Push(ls3);
+
+	st.ShowInfo();*/
+
+	Stack<int> stack;
+	stack.Push(150);
+	stack.Push(123);
+	stack.Push(10);
+	stack.Push(15);
+	stack.ShowInfo();
+	stack.Pop();
+	stack.ShowInfo();
+	stack.Push(999);
+	stack.Push(9);
+	stack.ShowInfo();
 	cout << endl;
-	ls.Print();*/
-	ls.AddByIndex(4, 155);
-	cout << endl;
-	ls.Print();
-	cout << endl;
+	cout << stack.Peek() << endl;
 	system("pause");
 	return 0;
 }
